@@ -30,9 +30,6 @@ class AppNavbar extends Component {
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav>
-                            <NavLink href="#">
-                                Buy Stocks
-                            </NavLink>
                                 <NavLink href="#">
                                     Portfolio
                                 </NavLink>
