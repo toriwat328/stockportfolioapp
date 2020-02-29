@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const app = express();
+const path = require('path');
 
 
 //-----------------------------------
@@ -24,7 +25,7 @@ mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true, 
 //-----------------------------------
 //MIDDLEWARE
 //-----------------------------------
-
+app.use(express.json())
 
 //-----------------------------------
 //CONTROLLER MAPPING
