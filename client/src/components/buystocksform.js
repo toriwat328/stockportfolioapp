@@ -10,15 +10,31 @@ import{
     Row
 } from 'reactstrap';
 import Portfolio from './portfolio';
+import { connect } from 'react-redux';
+import { buyStocks } from '../actions/stockActions';
+import PropTypes from 'prop-types';
+require('dotenv').config()
+
+const apikey = process.env.REACT_APP_IEXAPI;
+
+
 
 
 class BuyForm extends Component {
+
     state = {
+        // qtyshares: null,
+        // currvalpershare: null,
+        // isBought: false,
+        baseURL: 'https://cloud.iexapis.com/',
+        version: 'stable/',
+        endpoint: 'stock/',
         symbol: '',
-        qtyshares: null,
-        currvalpershare: null,
-        isBought: false
+        query: '/quote?token=' + apikey,
+        searchURL: ''
+
     }
+
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value})
@@ -30,13 +46,15 @@ class BuyForm extends Component {
         //get current share price from symbol
         //save to a variable and set currvalpershare to that variable
 
-        const newStock = {
-            symbol: this.state.symbol,
-            qtyshares: this.state.qtyshares,
-            currvalpershare: this.state.currvalpershare
-        }
+        // const newStock = {
+        //     symbol: this.state.symbol,
+        //     qtyshares: this.state.qtyshares,
+        //     currvalpershare: this.state.currvalpershare
+        // }
 
-
+        this.setState({
+            searchURL: this.state.baseURL + this.state.version + this.state.endpoint + this.state.symbol + this.state.query
+        })
 
     }
     render(){
@@ -81,6 +99,7 @@ class BuyForm extends Component {
                                 >Buy</Button>
                             </FormGroup>
                         </Form>
+                        <a href={this.state.searchURL}>{this.state.searchURL}</a>
                     </Container>
                     </Col>
                 </Row>
@@ -89,4 +108,9 @@ class BuyForm extends Component {
     }
 }
 
-export default BuyForm;
+const mapStateToProps = (state) => ({
+    stock: state.stock
+})
+
+
+export default connect(mapStateToProps, { buyStocks })(BuyForm);
