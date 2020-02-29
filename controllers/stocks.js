@@ -14,7 +14,7 @@ const Stock = require('../models/stock.js')
 router.get('/', (req, res) => {
     Stock.find()
         .then(stocks => res.json(stocks))
-})
+});
 
 //-----------------------------------
 //ROUTES (POST) -> /stocks
@@ -29,5 +29,7 @@ router.post('/', (req, res) => {
         isBought: true
     })
 
-    newShare.save().then(stock => res.json(item));
-})
+    newStock.save().then(stock => res.json(stock));
+});
+
+module.exports = router;
