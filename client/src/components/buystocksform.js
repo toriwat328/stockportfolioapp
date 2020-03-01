@@ -31,7 +31,8 @@ class BuyForm extends Component {
         endpoint: 'stock/',
         symbol: '',
         query: '/quote?token=' + apikey,
-        searchURL: ''
+        searchURL: '',
+        formRef: React.createRef()
 
     }
 
@@ -78,14 +79,12 @@ class BuyForm extends Component {
 
                     this.props.buyStocks(newStock);
 
+
+
                     this.setState({
                         symbol: '',
                         qtyshares: '',
-                        currvalpershare: ''
-                    }, () => {
-                        console.log(this.state.symbol);
-                        console.log(this.state.qtyshares);
-                        console.log(this.state.currvalpershare);
+                        currvalpershare: null
                     })
 
 
@@ -115,6 +114,8 @@ class BuyForm extends Component {
         // console.log(this.state.qtyshares);
         // console.log(this.state.currvalpershare);
 
+
+
     }
 
     render(){
@@ -133,6 +134,7 @@ class BuyForm extends Component {
                                     name="symbol"
                                     id="symbol"
                                     placholder="Ticker"
+                                    value={this.state.symbol}
                                     onChange={this.onChange}
                                 />
                                 <Label for="qtyshares">Number of Shares</Label>
@@ -140,7 +142,9 @@ class BuyForm extends Component {
                                     type="select"
                                     name="qtyshares"
                                     id="qtyshares"
+                                    value={this.state.qtyshares}
                                     onChange={this.onChange}>
+                                    <option>Choose Quantity</option>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -159,7 +163,6 @@ class BuyForm extends Component {
                                 >Buy</Button>
                             </FormGroup>
                         </Form>
-                        <a href={this.state.searchURL}>{this.state.searchURL}</a>
                     </Container>
                     </Col>
                 </Row>
