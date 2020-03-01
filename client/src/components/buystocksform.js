@@ -23,9 +23,9 @@ const apikey = process.env.REACT_APP_IEXAPI;
 class BuyForm extends Component {
 
     state = {
-        // qtyshares: null,
-        // currvalpershare: null,
-        // isBought: false,
+        qtyshares: null,
+        currvalpershare: null,
+        isBought: false,
         baseURL: 'https://cloud.iexapis.com/',
         version: 'stable/',
         endpoint: 'stock/',
@@ -46,23 +46,46 @@ class BuyForm extends Component {
         //get current share price from symbol
         //save to a variable and set currvalpershare to that variable
 
+
+
+        this.setState({
+            searchURL: this.state.baseURL + this.state.version + this.state.endpoint + this.state.symbol + this.state.query
+        }, () => {
+            console.log(this.state.searchURL)
+            fetch(this.state.searchURL)
+                .then(response => {
+                    return response.json()
+                }).then(json => this.setState({
+                    currvalpershare: json.latestPrice
+                }, () => {
+                    console.log(this.state.currvalpershare)
+                }),
+                    err => console.log(err))
+        })
+
+
+
         // const newStock = {
         //     symbol: this.state.symbol,
         //     qtyshares: this.state.qtyshares,
         //     currvalpershare: this.state.currvalpershare
+        //
         // }
-
-        this.setState({
-            searchURL: this.state.baseURL + this.state.version + this.state.endpoint + this.state.symbol + this.state.query
-        })
+        //
+        // this.props.buyStocks(newStock);
+        //
+        console.log(this.state.symbol);
+        console.log(this.state.qtyshares);
+        console.log(this.state.currvalpershare);
 
     }
+
     render(){
         return (
             <div>
             <Row>
                 <Portfolio />
-                    <Col sm={3} style={{'display': 'flex', 'align-content': 'center', 'flex-direction': 'column'}}>
+                    <Col sm={3} style={{display: 'flex', alignContent: 'center', 'flexDirection': 'column'}}>
                     <h4 className="mt-5">Cash - $5000.00</h4>
                     <Container >
                         <Form onSubmit={this.onSubmit}>

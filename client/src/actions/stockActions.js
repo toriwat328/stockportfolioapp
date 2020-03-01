@@ -11,7 +11,7 @@ export const getStocks = () => dispatch => {
 }
 
 export const buyStocks = (stock) => dispatch => {
-    axios.get('/stocks')
+    axios.post('/stocks', stock)
         .then(res => dispatch({
             type: BUY_STOCK,
             payload: res.data
