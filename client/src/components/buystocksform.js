@@ -58,7 +58,16 @@ class BuyForm extends Component {
                 }).then(json => this.setState({
                     currvalpershare: json.latestPrice
                 }, () => {
-                    console.log(this.state.currvalpershare)
+                    const newStock = {
+                        state: this.state.symbol,
+                        qtyshares: this.state.qtyshares,
+                        currvalpershare: this.state.currvalpershare
+                    }
+
+                    console.log(newStock);
+
+                    // this.props.buyStocks(newStock);
+
                 }),
                     err => console.log(err))
         })
