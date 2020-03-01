@@ -67,33 +67,20 @@ class Portfolio extends Component {
 
         }
 
-        // for(let symbols in uniqueSymbols){
-        //     console.log(symbols);
-        //     this.setState({
-        //         symbol: symbols
-        //     })
-        //
-        //     if(!uniqueSymbols[symbols].latestPrice){
-        //             this.setState({
-        //                 searchURL: this.state.baseURL + this.state.version + this.state.endpoint + this.state.symbol + this.state.query
-        //             }, () => {
-        //                 fetch(this.state.searchURL)
-        //                     .then(response => {
-        //                         return response.json()
-        //                     }).then(json => this.setState({
-        //                         latestPrice: json.latestPrice,
-        //                         open: json.open
-        //                     }, () => {
-        //                          uniqueSymbols[symbols].latestPrice = this.state.latestPrice;
-        //                          uniqueSymbols[symbols].open = this.state.open;
-        //                     })
-        //
-        //             )}, err => console.log(err))
-        //
-        //         }
-        // }
+        for(let symbols in uniqueSymbols){
+            console.log(symbols);
+            if(!uniqueSymbols[symbols].latestPrice){
+                    fetch('https://cloud.iexapis.com/stable/stock/' + symbols + '/quote?token=' + apikey)
+                            .then(response => {
+                                return response.json()
+                            }).then(json => {
+                                 uniqueSymbols[symbols].latestPrice = json.latestPrice;
+                                 uniqueSymbols[symbols].open = json.open;
+                            }).catch(err => console.log(err))
+            }
+        }
 
-        // console.log(this.state.latestPrice);
+        console.log(this.state.latestPrice);
 
         return uniqueSymbols;
 
