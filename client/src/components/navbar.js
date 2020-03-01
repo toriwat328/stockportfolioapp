@@ -9,6 +9,9 @@ import {
     NavLink,
     Container
 } from 'reactstrap';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Portfolio from './portfolio';
+import Transactions from './transactions';
 
 
 class AppNavbar extends Component {
@@ -23,6 +26,7 @@ class AppNavbar extends Component {
     }
     render(){
         return (
+
             <div>
                 <Navbar color="dark" dark expand="sm" className="mb-5">
                     <Container>
@@ -30,16 +34,20 @@ class AppNavbar extends Component {
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav>
-                                <NavLink href="#">
-                                    Portfolio
+                                <NavLink>
+                                    <Link to={'/portfolio'} className="nav-link">Portfolio</Link>
                                 </NavLink>
                                 <NavLink href="#">
-                                    Transactions
+                                    <Link to={'/transactions'} className="nav-link">Transactions</Link>
                                 </NavLink>
                             </Nav>
                         </Collapse>
                     </Container>
                 </Navbar>
+                <Switch>
+                    <Route path='/portfolio' component={Portfolio} />
+                    <Route path='/transactions' component={Transactions} />
+                </Switch>
             </div>
         )
     }
