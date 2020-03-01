@@ -35,6 +35,16 @@ class BuyForm extends Component {
 
     }
 
+    // componentDidUpdate(){
+    //     if(this.state.symbol !== ''){
+    //         this.setState({
+    //             symbol: '',
+    //             qtyshares: null,
+    //             currvalpershare: null
+    //         })
+    //     }
+    // }
+
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value})
@@ -59,20 +69,38 @@ class BuyForm extends Component {
                     currvalpershare: json.latestPrice
                 }, () => {
                     const newStock = {
-                        state: this.state.symbol,
+                        symbol: this.state.symbol,
                         qtyshares: this.state.qtyshares,
                         currvalpershare: this.state.currvalpershare
                     }
 
                     console.log(newStock);
 
-                    // this.props.buyStocks(newStock);
+                    this.props.buyStocks(newStock);
+
+                    this.setState({
+                        symbol: '',
+                        qtyshares: '',
+                        currvalpershare: ''
+                    }, () => {
+                        console.log(this.state.symbol);
+                        console.log(this.state.qtyshares);
+                        console.log(this.state.currvalpershare);
+                    })
+
+
+
 
                 }),
                     err => console.log(err))
         })
 
 
+        // this.setState({
+        //     symbol: null,
+        //     qtyshares: null,
+        //     currvalpershare: null
+        // })
 
         // const newStock = {
         //     symbol: this.state.symbol,
@@ -83,9 +111,9 @@ class BuyForm extends Component {
         //
         // this.props.buyStocks(newStock);
         //
-        console.log(this.state.symbol);
-        console.log(this.state.qtyshares);
-        console.log(this.state.currvalpershare);
+        // console.log(this.state.symbol);
+        // console.log(this.state.qtyshares);
+        // console.log(this.state.currvalpershare);
 
     }
 
