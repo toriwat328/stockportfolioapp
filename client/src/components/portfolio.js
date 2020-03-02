@@ -21,6 +21,7 @@ class Portfolio extends Component {
         latestPrice: '',
         open: ''
 
+
     }
 
     static propTypes = {
@@ -29,27 +30,15 @@ class Portfolio extends Component {
     }
 
     componentDidMount(){
-        this.props.getStocks();
+
+            this.props.getStocks();
 
 
 
 
     }
 
-    // componentDidUpdate(){
-    //
-    //     console.log(this.makeUnique(this.props.stock));
-    //
-    // }
-
-
-
-
-
     makeUnique = (stocks) => {
-
-
-
 
         const uniqueSymbols = {};
         // //create empty object variables
@@ -69,43 +58,66 @@ class Portfolio extends Component {
 
         for(let symbols in uniqueSymbols){
             console.log(symbols);
-            if(!uniqueSymbols[symbols].latestPrice){
                     fetch('https://cloud.iexapis.com/stable/stock/' + symbols + '/quote?token=' + apikey)
                             .then(response => {
                                 return response.json()
                             }).then(json => {
-                                 uniqueSymbols[symbols].latestPrice = json.latestPrice;
-                                 uniqueSymbols[symbols].open = json.open;
+                                    console.log(json);
+                                    uniqueSymbols[symbols].latestPrice = json.latestPrice;
+                                    uniqueSymbols[symbols].open = json.open;
+                                    console.log(JSON.stringify(uniqueSymbols));
+
+                                    return uniqueSymbols;
+
+
                             }).catch(err => console.log(err))
-            }
+
+
+
         }
 
-        console.log(this.state.latestPrice);
 
-        return uniqueSymbols;
+
+
+        console.log(uniqueSymbols);
+
+        // for(let symbols in uniqueSymbols){
+        //     console.log(typeof(uniqueSymbols[symbols].open));
+        //     uniqueSymbols[symbols].diff = uniqueSymbols[symbols].latestPrice -= uniqueSymbols[symbols].open
+        // }
+
+        // console.log(uniqueSymbols.AAPL.latestPrice);
+        // if(uniqueSymbols.AAPL.latestPrice){
+        //     return uniqueSymbols;
+        // }
+
 
     }
 
-
-
-
-
-
     render(){
-        const { stocks } = this.props.stock;
-        console.log(this.props.stock);
-        console.log(this.makeUnique(this.props.stock));
+
+        const uniqueTicker = this.makeUnique(this.props.stock);
+
+        console.log(JSON.stringify(uniqueTicker));
+
+
+
 
         return (
+
+
             <Row>
             <Col sm={7}>
             <h2>Portfolio ($5943.34)</h2>
             <Container
                 style={{borderRight: '.5px solid grey', height: '700px'}}>
+
+
             </Container>
             </Col>
             <BuyForm />
             </Row>
+
         )
     }
 }
