@@ -57,6 +57,7 @@ class Portfolio extends Component {
                                 console.log(json);
                                 uniqueSymbols[symbol].latestPrice = json.latestPrice;
                                 uniqueSymbols[symbol].open = json.open;
+
                         }).catch(err => console.log(err))
             }else {
                 uniqueSymbols[symbol].shares += stocks.stocks[i].qtyshares;
@@ -67,23 +68,35 @@ class Portfolio extends Component {
 
     console.log(uniqueSymbols);
 
-    uniqueSymbols['done'] = true;
 
+    uniqueSymbols['done'] = true;
     return uniqueSymbols;
 
     }
 
     runFunction = async () => {
-        let uniqueTicker = await this.makeUnique(this.props.stock)
+        try {
+            let uniqueTicker = await this.makeUnique(this.props.stock)
 
-        if(uniqueTicker['done']){
-            return uniqueTicker;
+            if(uniqueTicker['done']){
+                console.log(uniqueTicker);
+                return uniqueTicker;
+            }
         }
+        catch (err){
+
+            console.log('error', err);
+
+        }
+
     }
 
     render(){
 
-        console.log(this.runFunction());
+        let uniqueTicker  = this.runFunction();
+
+        console.log(uniqueTicker);
+
 
 
 
@@ -95,7 +108,13 @@ class Portfolio extends Component {
             <h2>Portfolio ($5943.34)</h2>
             <Container
                 style={{borderRight: '.5px solid grey', height: '700px'}}>
-
+                <ListGroup>
+                {Object.keys(uniqueTicker).map((symbol, i)=> (
+                    <ListGroupItem key={i}>
+                        { symbol } - {uniqueTicker[symbol].shares} Shares {uniqueTicker[symbol].latestPrice}
+                    </ListGroupItem>
+                ))}
+                </ListGroup>
 
             </Container>
             </Col>
