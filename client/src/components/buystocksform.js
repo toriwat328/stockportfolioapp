@@ -11,6 +11,7 @@ import{
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { buyStocks } from '../actions/stockActions';
+import { getUniqueStocks } from '../actions/uniqueActions';
 import PropTypes from 'prop-types';
 require('dotenv').config()
 
@@ -82,6 +83,8 @@ class BuyForm extends Component {
                     err => console.log(err))
         })
 
+        this.props.getUniqueStocks();
+
     }
 
     render(){
@@ -140,4 +143,4 @@ const mapStateToProps = (state) => ({
 })
 
 
-export default connect(mapStateToProps, { buyStocks })(BuyForm);
+export default connect(mapStateToProps, { buyStocks, getUniqueStocks })(BuyForm);

@@ -36,6 +36,14 @@ class Portfolio extends Component {
 
     }
 
+    isNegative = (num) => {
+        if(num >= 1){
+            return true;
+        }else if(num < 0){
+            return false;
+        }
+    }
+
     render(){
         const uniqueStocks = this.props.uniqueStock.uniqueStock;
         console.log(uniqueStocks);
@@ -52,7 +60,8 @@ class Portfolio extends Component {
                 <ListGroup>
                     {Object.keys(uniqueStocks).map((symbol, i)=> (
                         <ListGroupItem key={i}>
-                            <p style={{color: 'green'}} >{ symbol }</p> - {uniqueStocks[symbol].shares} Shares ${Math.floor(uniqueStocks[symbol].latestPrice *= uniqueStocks[symbol].shares)}
+                            <h5 style={ this.isNegative(uniqueStocks[symbol].diff) ? {color: 'green'} : {color: 'red'}} >{ symbol }</h5> - {uniqueStocks[symbol].shares} Shares @ ${Math.floor(uniqueStocks[symbol].latestPrice * uniqueStocks[symbol].shares)} <br/>
+                            <span>Current Price: <strong style={ this.isNegative(uniqueStocks[symbol].diff) ? {color: 'green'} : {color: 'red'}}>${uniqueStocks[symbol].latestPrice }</strong></span>
                         </ListGroupItem>
                     ))}
                 </ListGroup>
