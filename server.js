@@ -31,8 +31,8 @@ app.use(express.json())
 //CONTROLLER MAPPING
 //-----------------------------------
 
-const stocksController = require('./controllers/stocks.js')
-app.use('/stocks', stocksController)
+const usersController = require('./controllers/users.js')
+app.use('/users', usersController)
 
 
 //-----------------------------------
