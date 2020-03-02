@@ -13,12 +13,6 @@ export default function(state = initialState, action){
                 stocks: action.payload,
                 loading: false
             }
-        case GET_UNIQUE_STOCK:
-                return {
-                    ...state,
-                    stocks: action.payload,
-                    loading: false
-                }
         case BUY_STOCK:
             return {
                 ...state,

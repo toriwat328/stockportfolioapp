@@ -24,6 +24,7 @@ class AppNavbar extends Component {
             isOpen: !this.state.isOpen
         })
     }
+
     render(){
         return (
 
@@ -35,7 +36,7 @@ class AppNavbar extends Component {
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav>
                                 <NavLink>
-                                    <Link to={'/portfolio'} className="nav-link">Portfolio</Link>
+                                    <Link to={'/portfolio'} className="nav-link" >Portfolio</Link>
                                 </NavLink>
                                 <NavLink href="#">
                                     <Link to={'/transactions'} className="nav-link">Transactions</Link>

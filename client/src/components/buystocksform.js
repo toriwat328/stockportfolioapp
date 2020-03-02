@@ -82,8 +82,6 @@ class BuyForm extends Component {
                     err => console.log(err))
         })
 
-
-
     }
 
     render(){
