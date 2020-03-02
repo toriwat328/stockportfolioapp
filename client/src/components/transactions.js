@@ -20,21 +20,22 @@ class Transactions extends Component {
     }
 
     render(){
-        
+
         const { stocks } = this.props.stock
-        console.log(stocks)
+        console.log(stocks);
+
         return (
             <Col sm={7}>
             <h2>Transactions</h2>
             <Container>
-                <ListGroup>
-                {stocks.map(({_id, symbol, qtyshares, currvalpershare, isBought})=> (
-                    <ListGroupItem>
-                    { isBought ? 'BUY ' : 'SELL '}
-                        ({ symbol }) - {qtyshares} Shares @ ${currvalpershare}
-                    </ListGroupItem>
-                ))}
-                </ListGroup>
+            <ListGroup>
+            {stocks.map(({_id, symbol, qtyshares, currvalpershare, isBought})=> (
+            <ListGroupItem key={_id}>
+            { isBought ? 'BUY ' : 'SELL '}
+                ({ symbol }) - {qtyshares} Shares @ ${currvalpershare}
+            </ListGroupItem>
+            ))}
+            </ListGroup>
             </Container>
             </Col>
         )

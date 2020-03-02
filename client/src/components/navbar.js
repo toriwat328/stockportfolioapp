@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react';
+import RegisterModal from './auth/registerModal';
+import LoginModal from './auth/loginModal';
+import Logout from "./auth/logout";
 import {
     Collapse,
     Navbar,
@@ -12,6 +15,8 @@ import {
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Portfolio from './portfolio';
 import Transactions from './transactions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 
 class AppNavbar extends Component {
@@ -25,7 +30,36 @@ class AppNavbar extends Component {
         })
     }
 
+    static propTypes = {
+        auth: PropTypes.object.isRequired
+    }
+
     render(){
+        const { isAuthenticated, user } = this.props.auth;
+
+        const authLinks = (
+            <Fragment>
+            <NavItem>
+                <span className="navbar-text mr-3">
+                    <strong>{ user ? `Welcome ${user.name}` : ''}</strong>
+                </span>
+            </NavItem>
+                <NavItem>
+                    <Logout />
+                </NavItem>
+            </Fragment>
+        );
+
+        const guestLinks = (
+            <Fragment>
+                <NavItem>
+                    <RegisterModal />
+                </NavItem>
+                <NavItem>
+                    <LoginModal />
+                </NavItem>
+            </Fragment>
+        );
         return (
 
             <div>
@@ -34,13 +68,16 @@ class AppNavbar extends Component {
                         <NavbarBrand href="/">TCKR</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
-                            <Nav>
-                                <NavLink>
+                            <Nav className="ml-auto" navbar>
+                                <NavItem href="/portfolio">
                                     <Link to={'/portfolio'} className="nav-link" >Portfolio</Link>
-                                </NavLink>
-                                <NavLink href="#">
+                                </NavItem>
+                                <NavItem>
                                     <Link to={'/transactions'} className="nav-link">Transactions</Link>
-                                </NavLink>
+                                </NavItem>
+
+                                { isAuthenticated ? authLinks : guestLinks }
+
                             </Nav>
                         </Collapse>
                     </Container>
@@ -54,4 +91,8 @@ class AppNavbar extends Component {
     }
 }
 
-export default AppNavbar;
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, null)(AppNavbar);

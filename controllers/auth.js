@@ -57,7 +57,7 @@ router.post('/', (req, res) => {
 })
 
 //-----------------------------------
-//ROUTES (GET) -> /auth/user
+//ROUTES (GET) -> /auth/users
 //-----------------------------------
 
 // GET USER DATA
