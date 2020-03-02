@@ -34,6 +34,8 @@ app.use(express.json())
 const usersController = require('./controllers/users.js')
 app.use('/users', usersController)
 
+const authController = require('./controllers/auth.js')
+app.use('/auth', authController)
 
 //-----------------------------------
 // PRODUCTION DEPLOYMENT

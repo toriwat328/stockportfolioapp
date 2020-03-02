@@ -4,11 +4,11 @@
 
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/User.js');
+const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const auth = require('../../middleware/auth');
+const auth = require('../middleware/auth');
 
 //-----------------------------------
 //ROUTES (POST) -> /auth
@@ -107,3 +107,5 @@ router.post('/stocks', auth, (req, res) => {
         })
         .then(stock => res.json(stock));
 });
+
+module.exports = router;
