@@ -19,7 +19,8 @@ class Portfolio extends Component {
         query: '/quote?token=' + apikey,
         searchURL: '',
         latestPrice: '',
-        open: ''
+        open: '',
+        done: false
 
 
     }
@@ -38,68 +39,51 @@ class Portfolio extends Component {
 
     }
 
+
     makeUnique = (stocks) => {
 
         const uniqueSymbols = {};
         // //create empty object variables
         // //loop through stocks array if symbol is already in new obj, then add qty to symbol value, otherwise add symbol with 0 as value
         for(let i = 0; i <= stocks.stocks.length-1; i++){
-            if(!uniqueSymbols[stocks.stocks[i].symbol]){
-                uniqueSymbols[stocks.stocks[i].symbol] = {};
-                uniqueSymbols[stocks.stocks[i].symbol].shares = stocks.stocks[i].qtyshares;
-
+            let symbol = stocks.stocks[i].symbol
+            if(!uniqueSymbols[symbol]){
+                uniqueSymbols[symbol] = {};
+                uniqueSymbols[symbol].shares = stocks.stocks[i].qtyshares;
+                fetch('https://cloud.iexapis.com/stable/stock/' + symbol + '/quote?token=' + apikey)
+                        .then(response => {
+                            return response.json()
+                        }).then(json => {
+                                console.log(json);
+                                uniqueSymbols[symbol].latestPrice = json.latestPrice;
+                                uniqueSymbols[symbol].open = json.open;
+                        }).catch(err => console.log(err))
             }else {
-                uniqueSymbols[stocks.stocks[i].symbol].shares += stocks.stocks[i].qtyshares
-
+                uniqueSymbols[symbol].shares += stocks.stocks[i].qtyshares;
             }
-
-
-        }
-
-        for(let symbols in uniqueSymbols){
-            console.log(symbols);
-                    fetch('https://cloud.iexapis.com/stable/stock/' + symbols + '/quote?token=' + apikey)
-                            .then(response => {
-                                return response.json()
-                            }).then(json => {
-                                    console.log(json);
-                                    uniqueSymbols[symbols].latestPrice = json.latestPrice;
-                                    uniqueSymbols[symbols].open = json.open;
-                                    console.log(JSON.stringify(uniqueSymbols));
-
-                                    return uniqueSymbols;
-
-
-                            }).catch(err => console.log(err))
-
-
-
         }
 
 
 
+    console.log(uniqueSymbols);
 
-        console.log(uniqueSymbols);
+    uniqueSymbols['done'] = true;
 
-        // for(let symbols in uniqueSymbols){
-        //     console.log(typeof(uniqueSymbols[symbols].open));
-        //     uniqueSymbols[symbols].diff = uniqueSymbols[symbols].latestPrice -= uniqueSymbols[symbols].open
-        // }
+    return uniqueSymbols;
 
-        // console.log(uniqueSymbols.AAPL.latestPrice);
-        // if(uniqueSymbols.AAPL.latestPrice){
-        //     return uniqueSymbols;
-        // }
+    }
 
+    runFunction = async () => {
+        let uniqueTicker = await this.makeUnique(this.props.stock)
 
+        if(uniqueTicker['done']){
+            return uniqueTicker;
+        }
     }
 
     render(){
 
-        const uniqueTicker = this.makeUnique(this.props.stock);
-
-        console.log(JSON.stringify(uniqueTicker));
-
+        console.log(this.runFunction());
 
 
 
