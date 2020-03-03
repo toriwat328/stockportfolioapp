@@ -31,10 +31,10 @@ app.use(express.json())
 //CONTROLLER MAPPING
 //-----------------------------------
 
-const usersController = require('./controllers/users.js')
+const usersController = require('./controllers/api/users.js')
 app.use('/users', usersController)
 
-const authController = require('./controllers/auth.js')
+const authController = require('./controllers/api/auth.js')
 app.use('/auth', authController)
 
 //-----------------------------------
