@@ -59,7 +59,8 @@ router.post('/', (req, res) => {
                                     user: {
                                         id: user.id,
                                         name: user.name,
-                                        email: user.email
+                                        email: user.email,
+                                        accbalance: user.accbalance
                                     }
                                 })
                             }

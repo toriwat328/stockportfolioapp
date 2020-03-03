@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import{
     Button,
     Modal,
@@ -14,7 +15,7 @@ import{
 import { connect } from 'react-redux';
 import { register } from '../../actions/authActions.js';
 import PropTypes from 'prop-types';
-import { clearErrors } from '../../actions/errorActions.js'
+import { clearErrors } from '../../actions/errorActions.js';
 
 
 class RegisterModal extends Component {
@@ -23,7 +24,8 @@ class RegisterModal extends Component {
         name: '',
         email: '',
         password: '',
-        msg: null
+        msg: null,
+        redirect: false
     }
 
     static propTypes = {
@@ -44,10 +46,16 @@ class RegisterModal extends Component {
             }
         }
 
-        // If authenticated close modal
+        // If authenticated close modal and redirect
         if(this.state.modal){
             if(isAuthenticated){
                 this.toggle();
+
+                this.setState({
+                    redirect: true
+                })
+
+
             }
         }
     }
@@ -83,6 +91,11 @@ class RegisterModal extends Component {
     }
 
     render(){
+        const redirect = this.state.redirect;
+        if (redirect) {
+            return <Redirect to='/portfolio' />;
+        }
+
         return (
             <div>
                 <NavLink onClick={this.toggle} href="#">

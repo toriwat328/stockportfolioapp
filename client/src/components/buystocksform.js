@@ -74,7 +74,16 @@ class BuyForm extends Component {
 
             fetch(this.state.searchURL)
                 .then(response => {
+                    if(response){
                         return response.json()
+                    }else {
+                        this.setState({
+                            msg: 'Invaild Ticker Symbol'
+                        })
+
+                        return;
+                    }
+
                 }).then(json => {
 
                         this.setState({
@@ -98,12 +107,7 @@ class BuyForm extends Component {
                                 this.props.getUniqueStocks()
                             })
                 })
-                .catch(err =>
-                    console.log(err),
-                    this.setState({
-                        msg: 'Invaild Ticker Symbol'
-                    })
-                )
+                .catch(err => console.log(err))
                 })
 
 

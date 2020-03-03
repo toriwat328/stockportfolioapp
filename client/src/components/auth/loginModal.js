@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import{
     Button,
     Modal,
@@ -22,7 +23,8 @@ class LoginModal extends Component {
         modal: false,
         email: '',
         password: '',
-        msg: null
+        msg: null,
+        redirect: false
     }
 
     static propTypes = {
@@ -47,6 +49,8 @@ class LoginModal extends Component {
         if(this.state.modal){
             if(isAuthenticated){
                 this.toggle();
+
+
             }
         }
     }
@@ -64,6 +68,7 @@ class LoginModal extends Component {
     }
 
     onSubmit = (e) => {
+        const { isAuthenticated } = this.props;
         e.preventDefault();
 
         const { email, password } = this.state;
@@ -76,11 +81,16 @@ class LoginModal extends Component {
         //Attempt to login
         this.props.login(user);
 
-
     }
 
     render(){
+        const { isAuthenticated } = this.props;
+        if (isAuthenticated) {
+            return <Redirect to='/portfolio' />;
+        }
+
         return (
+
             <div>
                 <NavLink onClick={this.toggle} href="#">
                     Login
@@ -123,6 +133,7 @@ class LoginModal extends Component {
                     </ModalBody>
                 </Modal>
             </div>
+
         );
 
     }
