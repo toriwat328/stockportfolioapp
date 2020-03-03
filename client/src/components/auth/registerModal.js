@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import{
@@ -17,7 +20,9 @@ import { register } from '../../actions/authActions.js';
 import PropTypes from 'prop-types';
 import { clearErrors } from '../../actions/errorActions.js';
 
-
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
 class RegisterModal extends Component {
     state = {
         modal: false,
@@ -38,7 +43,7 @@ class RegisterModal extends Component {
     componentDidUpdate(prevProps){
         const { error, isAuthenticated } = this.props;
         if(error !== prevProps.error){
-            // Check for register error
+            // CHECK FRO REGISTER ERROR
             if(error.id === 'REGISTER_FAIL'){
                 this.setState({ msg: error.msg.msg });
             } else {
@@ -46,22 +51,17 @@ class RegisterModal extends Component {
             }
         }
 
-        // If authenticated close modal and redirect
+        // IF AUTHENTICATED CLOSE MODAL
         if(this.state.modal){
             if(isAuthenticated){
                 this.toggle();
-
-                this.setState({
-                    redirect: true
-                })
-
 
             }
         }
     }
 
     toggle = () => {
-        // Clear Errors
+        // CLEAR ERRORS
         this.props.clearErrors();
         this.setState({
             modal: !this.state.modal
@@ -77,20 +77,23 @@ class RegisterModal extends Component {
 
         const { name, email, password } = this.state;
 
-        //Create user object
+        // CREATE USER OBJECT AND PASS IT UNTO REGISTER FUNCTION TO REGISTER USER
         const newUser = {
             name,
             email,
             password
         };
 
-        //Attempt to register
+        // ATTEMPT TO REGISTER WITH USER INPUT
         this.props.register(newUser)
 
 
     }
-
+//-----------------------------------
+// RENDER
+//-----------------------------------
     render(){
+        // ATTEMPT TO GET USER TO BE REDIRECTED AFTER BEING AUTHENTICATED WHEN LOGGING IN  -> NOT WORKING
         const redirect = this.state.redirect;
         if (redirect) {
             return <Redirect to='/portfolio' />;

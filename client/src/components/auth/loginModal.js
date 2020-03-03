@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import{
@@ -18,6 +21,10 @@ import PropTypes from 'prop-types';
 import { clearErrors } from '../../actions/errorActions.js'
 
 
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
+
 class LoginModal extends Component {
     state = {
         modal: false,
@@ -37,7 +44,7 @@ class LoginModal extends Component {
     componentDidUpdate(prevProps){
         const { error, isAuthenticated } = this.props;
         if(error !== prevProps.error){
-            // Check for register error
+            // CHECK FOR REGISTER ERROR -> IF LOGIN FAIL THEN UPDATE MSG STATE TO CORRESPONDING ERROR
             if(error.id === 'LOGIN_FAIL'){
                 this.setState({ msg: error.msg.msg });
             } else {
@@ -45,7 +52,7 @@ class LoginModal extends Component {
             }
         }
 
-        // If authenticated close modal
+        // IF AUTHENTICATED, CLOSE MODAL
         if(this.state.modal){
             if(isAuthenticated){
                 this.toggle();
@@ -56,7 +63,7 @@ class LoginModal extends Component {
     }
 
     toggle = () => {
-        // Clear Errors
+        // CLEAR ERRORS
         this.props.clearErrors();
         this.setState({
             modal: !this.state.modal
@@ -64,11 +71,11 @@ class LoginModal extends Component {
     }
 
     onChange = (e) => {
+        // AS USER TYPES IN FORM, WHAT IS BEING TYPED IS THE VALUE AND THE FIELD IS THE NAME
         this.setState({ [e.target.name]: e.target.value });
     }
 
     onSubmit = (e) => {
-        const { isAuthenticated } = this.props;
         e.preventDefault();
 
         const { email, password } = this.state;
@@ -78,12 +85,17 @@ class LoginModal extends Component {
             password
         }
 
-        //Attempt to login
+        // ATTEMPT TO LOGIN WITH USER INPUT
         this.props.login(user);
 
     }
 
+//-----------------------------------
+// RENDER
+//-----------------------------------
+
     render(){
+        // ATTEMPT TO GET USER TO BE REDIRECTED AFTER BEING AUTHENTICATED WHEN LOGGING IN  -> NOT WORKING
         const { isAuthenticated } = this.props;
         if (isAuthenticated) {
             return <Redirect to='/portfolio' />;

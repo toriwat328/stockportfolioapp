@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import axios from 'axios';
 import { returnErrors } from './errorActions';
 
@@ -11,6 +14,10 @@ import {
     REGISTER_FAIL,
     REGISTER_SUCCESS
 } from './types';
+
+//-----------------------------------
+// AUTH ACTIONS
+//-----------------------------------
 
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
@@ -30,7 +37,9 @@ export const loadUser = () => (dispatch, getState) => {
         });
 };
 
-// REGISTER USER
+
+
+//REGISTER USER
 export const register = ({ name, email, password }) => dispatch => {
 
     // HEADERS
@@ -56,6 +65,9 @@ export const register = ({ name, email, password }) => dispatch => {
             });
         });
 };
+
+
+
 
 // LOGIN USER
 export const login = ({ email, password }) => dispatch => {
@@ -83,6 +95,9 @@ export const login = ({ email, password }) => dispatch => {
         });
 };
 
+
+
+
  // LOGOUT USER
 export const logout = () => {
     return {
@@ -93,7 +108,6 @@ export const logout = () => {
 
 
 // SETUP CONFIG/HEADERS AND TOKEN
-
 export const tokenConfig = getState => {
     //  GET TOKEN FROM LOCALSTORAGE
     const token = getState().auth.token;

@@ -1,10 +1,15 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component } from 'react';
 import { Jumbotron } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
 class JumbotronApp extends Component {
     state = {
         isOpen: false
@@ -20,7 +25,11 @@ class JumbotronApp extends Component {
     static propTypes = {
         auth: PropTypes.object.isRequired
     }
+//-----------------------------------
+// RENDER
+//-----------------------------------
 
+// ONLY SHOW THIS COMPONENT WHEN USER IS NOT AUTHENTICATED 
     render(){
         const { isAuthenticated } = this.props.auth;
 

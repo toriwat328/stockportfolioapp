@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import { GET_STOCK, BUY_STOCK, STOCK_LOADING, BUY_STOCK_FAIL } from '../actions/types';
 
 const initialState = {

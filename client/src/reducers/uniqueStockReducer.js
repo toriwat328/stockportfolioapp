@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import { UNIQUE_STOCK_LOADING, GET_UNIQUE_STOCK } from '../actions/types';
 
 const initialState = {

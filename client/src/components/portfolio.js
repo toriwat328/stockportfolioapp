@@ -1,6 +1,8 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button, Col, Row } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Container, ListGroup, ListGroupItem, Col, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getUniqueStocks } from '../actions/uniqueActions';
 import PropTypes from 'prop-types';
@@ -9,7 +11,9 @@ require('dotenv').config()
 
 const apikey = process.env.REACT_APP_IEXAPI;
 
-
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
 class Portfolio extends Component {
     state = {
         baseURL: 'https://cloud.iexapis.com/',
@@ -36,6 +40,7 @@ class Portfolio extends Component {
 
     }
 
+    // FUNCTION TO CALCULATE WHAT COLOR SYMBOL AND CURRENT PRICE NEEDS TO BE IF LESS THAN 0, RED, GREATER THAN ?, GREEN, 0 ? WONT RENDER ANY COLOR
     isNegative = (num) => {
         if(num >= 1){
             return true;
@@ -43,10 +48,13 @@ class Portfolio extends Component {
             return false;
         }
     }
-
+//-----------------------------------
+// RENDER
+//-----------------------------------
     render(){
         const uniqueStocks = this.props.uniqueStock.uniqueStock;
 
+        // CALCULATE PORTFOLIO TOTAL BY ITERATING THROUGH UNIQUE STOCKS AND ADDING CURRENT VALUE
         const portfolioTotal = () => {
             let counter = 0;
             for(let symbol in uniqueStocks){

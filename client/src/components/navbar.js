@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component, Fragment } from 'react';
 import RegisterModal from './auth/registerModal';
 import LoginModal from './auth/loginModal';
@@ -9,17 +12,18 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     Container
 } from 'reactstrap';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Switch, Link } from 'react-router-dom';
 import Portfolio from './portfolio';
 import Transactions from './transactions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PrivateRoute from './common/privateRoute';
 
-
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
 class AppNavbar extends Component {
     state = {
         isOpen: false
@@ -36,6 +40,15 @@ class AppNavbar extends Component {
         auth: PropTypes.object.isRequired
     }
 
+//-----------------------------------
+// RENDER
+//-----------------------------------
+
+// TO SET NAV LINKS DYNAMICALLY BASED ON USER AUTH -> SET AUTH LINKS AND GUEST LINKS TO VARIABLES AND USER TERNARY OPERATOR TO SHOW CORRESPONDING LINKS
+
+//ADDED USER NAME TO NAV WHEN LOGGED IN
+
+//MADE PORTFOLIO AND TRANSATIONS PRIVATE ROUTES
     render(){
         const { isAuthenticated, user } = this.props.auth;
 

@@ -1,4 +1,14 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import { GET_ERRORS, CLEAR_ERRORS } from './types';
+
+
+
+//-----------------------------------
+//ERROR ACTIONS
+//-----------------------------------
+
 
 // RETURN ERRORS
 export const returnErrors = (msg, status, id = null) => {
@@ -7,6 +17,8 @@ export const returnErrors = (msg, status, id = null) => {
         payload: {msg, status, id }
     }
 }
+
+
 
 // CLEAR ERRORS
 export const clearErrors = () => {

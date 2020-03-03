@@ -1,11 +1,15 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button, Col } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Container, ListGroup, ListGroupItem, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getStocks } from '../actions/stockActions';
 import PropTypes from 'prop-types';
 
-
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
 class Transactions extends Component {
     static propTypes = {
         getStocks: PropTypes.func.isRequired,
@@ -18,6 +22,11 @@ class Transactions extends Component {
 
 
     }
+//-----------------------------------
+// RENDER
+//-----------------------------------
+
+// GET STOCKS AND THEN LIST ALL STOCK VALUES -> IF ISBOUGHT IS TRUE 'BUY' WILL SHOW INSTEAD OF 'SELL'
 
     render(){
 

@@ -100,14 +100,15 @@ router.post('/stocks', auth, (req, res) => {
                 isBought: true
             }
 
+            // SET CURRENT VALUE TO A VARIABLE
             let currval = req.body.currvalpershare * req.body.qtyshares;
 
+            //IF CURRENT VALUE IS LESS THAN USER'S ACCOUNT BALANCE THEN BUY STOCK AND DECREASE ACCOUNT BALANCE ELSE SEND A 404 ERROR MESSAGE
             if(currval <= user.accbalance){
                 user.accbalance -= currval;
                 user.stocks.push(newStock);
                 user.save();
                 return user.stocks;
-                window.location.reload()
             } else {
                 return res.status(400).json({ msg: 'Account balance below stock purchase value'});
 

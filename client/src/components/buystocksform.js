@@ -1,3 +1,6 @@
+//-----------------------------------
+//IMPORTS
+//-----------------------------------
 import React, { Component } from 'react';
 import{
     Button,
@@ -20,7 +23,9 @@ const apikey = process.env.REACT_APP_IEXAPI;
 
 
 
-
+//-----------------------------------
+//COMPONENT STATE AND METHODS
+//-----------------------------------
 class BuyForm extends Component {
 
     state = {
@@ -45,7 +50,7 @@ class BuyForm extends Component {
     componentDidUpdate(prevProps){
         const { error } = this.props;
         if(error !== prevProps.error){
-            // Check for register error
+            // CHECK IF ERROR IS A BUY STOCK FAIL, IF SO UPDATE MSG STATE TO CORRESPONDING ERROR
             if(error.id === 'BUY_STOCK_FAIL'){
                 this.setState({ msg: error.msg.msg });
             } else {
@@ -63,20 +68,23 @@ class BuyForm extends Component {
     onSubmit = (e) => {
 
         e.preventDefault();
+
+        //CLEAR ANY ERRORS
         this.props.clearErrors();
 
-        //get current share price from symbol
-        //save to a variable and set currvalpershare to that variable
 
+        //CONCATENATE STATES TO CREATE SEARCH URL FOR FETCH ACCESS STOCK API
         this.setState({
             searchURL: this.state.baseURL + this.state.version + this.state.endpoint + this.state.symbol + this.state.query
         }, () => {
 
             fetch(this.state.searchURL)
                 .then(response => {
+                    //IF THE RESPONSE IS 200 JUST RETURN RESPONSE IN JSON
                     if(response.ok){
                         return response.json()
                     } else {
+                        // IF NOT OKAY, THAT MEANS USER TYPED INVAILD SYMBOL, SO UPDATE MSG ACCORDINGLY TO BE DISPLAYED WHEN BUY IS SUBMITTED
                         this.setState({
                             msg: "Unknown symbol"
                         })
@@ -86,10 +94,12 @@ class BuyForm extends Component {
 
                 }).then(json => {
                         if(json){
+                            // WHEN WE GET THE JSON DATA SET CURRENT PRICE STATE TO JSON LATEST PRICE
                             this.setState({
                                 currvalpershare: json.latestPrice
                             }, () => {
 
+                                    // CREATE AN OBJECT WITH ALL NEED PROPERTIES AND VALUES
                                     const newStock = {
                                         symbol: this.state.symbol,
                                         qtyshares: this.state.qtyshares,
@@ -97,13 +107,18 @@ class BuyForm extends Component {
                                     }
 
                                     console.log(newStock);
+
+                                    // BUY THE STOCK
                                     this.props.buyStocks(newStock);
+
+                                    // RESET FORM TO CLEAR VALUES
                                     this.setState({
                                         symbol: '',
                                         qtyshares: '',
                                         currvalpershare: null
                                     })
 
+                                    // GET UNIQUE STOCK WITH THE NEW STOCK ADDED
                                     this.props.getUniqueStocks()
                                 })
                         }else {
@@ -117,7 +132,11 @@ class BuyForm extends Component {
 
         }
 
+    //-----------------------------------
+    // RENDER
+    //-----------------------------------
 
+    // BROUGHT IN ACCOUNT BALANCE FROM AUTH USER TO BE DISPLAYED -> ACCOUNT BALANCE NOT UPDATING WHEN BUY IS MADE -> WOULD NEED TO CREATE A STATE FOR ACCOUNT BALANCE AND UPDATE THE STATE WHEN BUY HAPPENS TO UPDATE ACCOUNT BALANCE DYNAMICALLY?
     render(){
         return (
             <div>
