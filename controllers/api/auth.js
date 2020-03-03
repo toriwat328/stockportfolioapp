@@ -100,7 +100,7 @@ router.post('/stocks', auth, (req, res) => {
                 isBought: true
             }
 
-            let currval = req.body.currvalpershare
+            let currval = req.body.currvalpershare * req.body.qtyshares;
 
             if(currval <= user.accbalance){
                 user.accbalance -= currval;
@@ -109,8 +109,8 @@ router.post('/stocks', auth, (req, res) => {
                 return user.stocks;
                 window.location.reload()
             } else {
-                alert('You dont have enough in your account balance');
-                return;
+                return res.status(400).json({ msg: 'Account balance below stock purchase value'});
+
             }
 
         })

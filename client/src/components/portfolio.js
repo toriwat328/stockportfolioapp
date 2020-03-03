@@ -62,10 +62,10 @@ class Portfolio extends Component {
 
 
             <Row>
-            <Col sm={7}>
+            <Col sm={7} className="ml-3">
             <h2>Portfolio { '($' + portfolioTotal() + ')' }</h2>
             <Container
-                style={{borderRight: '.5px solid grey', height: '700px'}}>
+                style={{borderRight: '.5px solid grey', height: '700px', margin: '0 auto'}}>
                 <ListGroup>
                 {uniqueStocks ?
                     Object.keys(uniqueStocks).map((symbol, i)=> (

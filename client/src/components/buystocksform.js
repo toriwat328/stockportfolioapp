@@ -7,11 +7,12 @@ import{
     Input,
     Container,
     Col,
-    Row
+    Alert
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { buyStocks } from '../actions/stockActions';
 import { getUniqueStocks } from '../actions/uniqueActions';
+import { clearErrors } from '../actions/errorActions.js'
 import PropTypes from 'prop-types';
 require('dotenv').config()
 
@@ -31,9 +32,28 @@ class BuyForm extends Component {
         endpoint: 'stock/',
         symbol: '',
         query: '/quote?token=' + apikey,
-        searchURL: ''
+        searchURL: '',
+        msg: null
 
     }
+
+    static propTypes = {
+        error: PropTypes.object.isRequired,
+        clearErrors: PropTypes.func.isRequired
+    }
+
+    componentDidUpdate(prevProps){
+        const { error } = this.props;
+        if(error !== prevProps.error){
+            // Check for register error
+            if(error.id === 'BUY_STOCK_FAIL'){
+                this.setState({ msg: error.msg.msg });
+            } else {
+                this.setState({ msg: null })
+            }
+        }
+    }
+
 
 
     onChange = (e) => {
@@ -41,62 +61,62 @@ class BuyForm extends Component {
     }
 
     onSubmit = (e) => {
+
         e.preventDefault();
+        this.props.clearErrors();
 
         //get current share price from symbol
         //save to a variable and set currvalpershare to that variable
 
-
-
         this.setState({
             searchURL: this.state.baseURL + this.state.version + this.state.endpoint + this.state.symbol + this.state.query
         }, () => {
-            console.log(this.state.searchURL)
+
             fetch(this.state.searchURL)
                 .then(response => {
-                    return response.json()
-                }).then(json => this.setState({
-                    currvalpershare: json.latestPrice
-                }, () => {
-                    const newStock = {
-                        symbol: this.state.symbol,
-                        qtyshares: this.state.qtyshares,
-                        currvalpershare: this.state.currvalpershare
-                    }
+                        return response.json()
+                }).then(json => {
 
-                    console.log(newStock);
+                        this.setState({
+                            currvalpershare: json.latestPrice
+                        }, () => {
 
-                    this.props.buyStocks(newStock);
+                                const newStock = {
+                                    symbol: this.state.symbol,
+                                    qtyshares: this.state.qtyshares,
+                                    currvalpershare: this.state.currvalpershare
+                                }
 
+                                console.log(newStock);
+                                this.props.buyStocks(newStock);
+                                this.setState({
+                                    symbol: '',
+                                    qtyshares: '',
+                                    currvalpershare: null
+                                })
 
-
+                                this.props.getUniqueStocks()
+                            })
+                })
+                .catch(err =>
+                    console.log(err),
                     this.setState({
-                        symbol: '',
-                        qtyshares: '',
-                        currvalpershare: null
+                        msg: 'Invaild Ticker Symbol'
                     })
+                )
+                })
 
 
-                    this.props.getUniqueStocks()
+        }
 
-                }),
-                    err => console.log(err))
-        })
-
-
-
-    }
 
     render(){
-        const accbalance = this.props.user;
-        console.log(this.props.user);
-
-
         return (
             <div>
-                <Col sm={12} style={{display: 'flex', alignContent: 'center', 'flexDirection': 'column'}}>
-                <h4 className="mt-5">Cash - ${Math.floor(this.props.auth.user.accbalance)}</h4>
+                <Col sm={12} style={{display: 'flex', alignContent: 'center', 'flexDirection': 'column', margin: '0 auto'}}>
+                <h4 className="mt-5 mb-3">Cash - ${Math.floor(this.props.auth.user.accbalance)}</h4>
                 <Container >
+                    { this.state.msg ? (<Alert color="danger">{ this.state.msg }</Alert>) : null }
                     <Form onSubmit={this.onSubmit}>
                         <FormGroup>
                             <Label for="symbol">Ticker Symbol</Label>
@@ -104,6 +124,7 @@ class BuyForm extends Component {
                                 type="text"
                                 name="symbol"
                                 id="symbol"
+                                className="mb-3"
                                 placeholder="ex. AAPL"
                                 value={this.state.symbol}
                                 onChange={this.onChange}
@@ -113,6 +134,7 @@ class BuyForm extends Component {
                                 type="select"
                                 name="qtyshares"
                                 id="qtyshares"
+                                className="mb-3"
                                 value={this.state.qtyshares}
                                 onChange={this.onChange}>
                                 <option>Choose Quantity</option>
@@ -144,8 +166,9 @@ class BuyForm extends Component {
 
 const mapStateToProps = (state) => ({
     stock: state.stock,
-    auth: state.auth
+    auth: state.auth,
+    error: state.error
 })
 
 
-export default connect(mapStateToProps, { buyStocks, getUniqueStocks })(BuyForm);
+export default connect(mapStateToProps, { buyStocks, getUniqueStocks, clearErrors })(BuyForm);

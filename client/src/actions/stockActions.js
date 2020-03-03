@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { tokenConfig } from './authActions';
-import { GET_STOCK, BUY_STOCK, STOCK_LOADING } from './types';
+import { GET_STOCK, BUY_STOCK, STOCK_LOADING, BUY_STOCK_FAIL } from './types';
+import { returnErrors } from './errorActions';
 require('dotenv').config()
 
 const apikey = process.env.REACT_APP_IEXAPI;
@@ -11,13 +12,17 @@ export const buyStocks = (stock) => (dispatch, getState) => {
             type: BUY_STOCK,
             payload: res.data
         }))
-        .catch(err => console.log(err))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'BUY_STOCK_FAIL'));
+            dispatch({
+                type: BUY_STOCK_FAIL
+            });
+        });
 }
 
 export const getStocks = () => (dispatch, getState) => {
     axios.get('auth/stocks', tokenConfig(getState))
         .then(res => {
-            console.log(res.data.stocks);
             return res.data.stocks
         })
         .then(res => dispatch({

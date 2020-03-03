@@ -1,4 +1,4 @@
-import { GET_STOCK, BUY_STOCK, STOCK_LOADING, GET_UNIQUE_STOCK } from '../actions/types';
+import { GET_STOCK, BUY_STOCK, STOCK_LOADING, BUY_STOCK_FAIL } from '../actions/types';
 
 const initialState = {
     stocks: [],
@@ -23,6 +23,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 loading: true
+            }
+
+        case BUY_STOCK_FAIL:
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state;

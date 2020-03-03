@@ -23,7 +23,6 @@ class Transactions extends Component {
 
         const { stocks } = this.props.stock
 
-
         return (
             <Col sm={7}>
             <h2>Transactions</h2>
