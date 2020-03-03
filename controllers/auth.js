@@ -47,7 +47,8 @@ router.post('/', (req, res) => {
                                 user: {
                                     id: user.id,
                                     name: user.name,
-                                    email: user.email
+                                    email: user.email,
+                                    accbalance: user.accbalance
                                 }
                             })
                         }
@@ -99,13 +100,22 @@ router.post('/stocks', auth, (req, res) => {
                 isBought: true
             }
 
-            user.stocks.push(newStock);
+            let currval = req.body.currvalpershare
 
-            user.save();
+            if(currval <= user.accbalance){
+                user.accbalance -= currval;
+                user.stocks.push(newStock);
+                user.save();
+                return user.stocks;
+                window.location.reload()
+            } else {
+                alert('You dont have enough in your account balance');
+                return;
+            }
 
-            return user.stocks;
         })
-        .then(stock => res.json(stock));
+        .then(stock => res.json(stock))
+        .catch(err => console.log(err))
 });
 
 module.exports = router;

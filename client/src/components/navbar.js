@@ -17,11 +17,13 @@ import Portfolio from './portfolio';
 import Transactions from './transactions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import PrivateRoute from './common/privateRoute';
 
 
 class AppNavbar extends Component {
     state = {
         isOpen: false
+
     }
 
     toggle = () => {
@@ -83,8 +85,8 @@ class AppNavbar extends Component {
                     </Container>
                 </Navbar>
                 <Switch>
-                    <Route path='/portfolio' component={Portfolio} />
-                    <Route path='/transactions' component={Transactions} />
+                    <PrivateRoute exact path='/portfolio' component={Portfolio} />
+                    <PrivateRoute exact path='/transactions' component={Transactions} />
                 </Switch>
             </div>
         )

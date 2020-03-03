@@ -77,21 +77,25 @@ class BuyForm extends Component {
                     })
 
 
-
+                    this.props.getUniqueStocks()
 
                 }),
                     err => console.log(err))
         })
 
-        this.props.getUniqueStocks();
+
 
     }
 
     render(){
+        const accbalance = this.props.user;
+        console.log(this.props.user);
+
+
         return (
             <div>
                 <Col sm={12} style={{display: 'flex', alignContent: 'center', 'flexDirection': 'column'}}>
-                <h4 className="mt-5">Cash - $5000.00</h4>
+                <h4 className="mt-5">Cash - ${Math.floor(this.props.auth.user.accbalance)}</h4>
                 <Container >
                     <Form onSubmit={this.onSubmit}>
                         <FormGroup>
@@ -139,7 +143,8 @@ class BuyForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    stock: state.stock
+    stock: state.stock,
+    auth: state.auth
 })
 
 

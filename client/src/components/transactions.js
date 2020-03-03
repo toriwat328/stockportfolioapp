@@ -22,7 +22,7 @@ class Transactions extends Component {
     render(){
 
         const { stocks } = this.props.stock
-        console.log(stocks);
+
 
         return (
             <Col sm={7}>

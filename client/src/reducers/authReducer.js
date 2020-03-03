@@ -26,7 +26,7 @@ export default function(state = initialState, action){
         case USER_LOADED:
             return {
                 ...state,
-                isAuthenticated: true,
+                isAuthenticated: isLoggedIn(),
                 isLoading: true,
                 user: action.payload
             };
@@ -54,5 +54,13 @@ export default function(state = initialState, action){
         default:
             return state;
 
+    }
+}
+
+const isLoggedIn = () => {
+    if(localStorage.getItem('token') !== null){
+        return true;
+    } else {
+        return false;
     }
 }

@@ -12,16 +12,18 @@ class App extends Component {
 
   render(){
       return (
-         <Router>
+
          <Provider store={store}>
+         <Router>
             <div className="App">
 
                 <AppNavbar />
 
 
             </div>
+            </Router>
         </Provider>
-        </Router>
+
       );
   }
 

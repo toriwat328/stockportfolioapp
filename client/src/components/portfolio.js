@@ -46,7 +46,16 @@ class Portfolio extends Component {
 
     render(){
         const uniqueStocks = this.props.uniqueStock.uniqueStock;
-        console.log(uniqueStocks);
+
+        const portfolioTotal = () => {
+            let counter = 0;
+            for(let symbol in uniqueStocks){
+                counter += uniqueStocks[symbol].latestPrice * uniqueStocks[symbol].shares
+            }
+
+            return Math.floor(counter);
+        }
+
 
 
         return (
@@ -54,16 +63,17 @@ class Portfolio extends Component {
 
             <Row>
             <Col sm={7}>
-            <h2>Portfolio ($5943.34)</h2>
+            <h2>Portfolio { '($' + portfolioTotal() + ')' }</h2>
             <Container
                 style={{borderRight: '.5px solid grey', height: '700px'}}>
                 <ListGroup>
-                    {Object.keys(uniqueStocks).map((symbol, i)=> (
+                {uniqueStocks ?
+                    Object.keys(uniqueStocks).map((symbol, i)=> (
                         <ListGroupItem key={i}>
                             <h5 style={ this.isNegative(uniqueStocks[symbol].diff) ? {color: 'green'} : {color: 'red'}} >{ symbol }</h5> - {uniqueStocks[symbol].shares} Shares @ ${Math.floor(uniqueStocks[symbol].latestPrice * uniqueStocks[symbol].shares)} <br/>
                             <span>Current Price: <strong style={ this.isNegative(uniqueStocks[symbol].diff) ? {color: 'green'} : {color: 'red'}}>${uniqueStocks[symbol].latestPrice }</strong></span>
                         </ListGroupItem>
-                    ))}
+                    )) : 'See your stock portfolio in one place! Buy Stocks Now!'}
                 </ListGroup>
 
 
