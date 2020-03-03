@@ -74,38 +74,42 @@ class BuyForm extends Component {
 
             fetch(this.state.searchURL)
                 .then(response => {
-                    if(response){
+                    if(response.ok){
                         return response.json()
-                    }else {
+                    } else {
                         this.setState({
-                            msg: 'Invaild Ticker Symbol'
+                            msg: "Unknown symbol"
                         })
 
                         return;
                     }
 
                 }).then(json => {
+                        if(json){
+                            this.setState({
+                                currvalpershare: json.latestPrice
+                            }, () => {
 
-                        this.setState({
-                            currvalpershare: json.latestPrice
-                        }, () => {
+                                    const newStock = {
+                                        symbol: this.state.symbol,
+                                        qtyshares: this.state.qtyshares,
+                                        currvalpershare: this.state.currvalpershare
+                                    }
 
-                                const newStock = {
-                                    symbol: this.state.symbol,
-                                    qtyshares: this.state.qtyshares,
-                                    currvalpershare: this.state.currvalpershare
-                                }
+                                    console.log(newStock);
+                                    this.props.buyStocks(newStock);
+                                    this.setState({
+                                        symbol: '',
+                                        qtyshares: '',
+                                        currvalpershare: null
+                                    })
 
-                                console.log(newStock);
-                                this.props.buyStocks(newStock);
-                                this.setState({
-                                    symbol: '',
-                                    qtyshares: '',
-                                    currvalpershare: null
+                                    this.props.getUniqueStocks()
                                 })
+                        }else {
+                            return;
+                        }
 
-                                this.props.getUniqueStocks()
-                            })
                 })
                 .catch(err => console.log(err))
                 })
