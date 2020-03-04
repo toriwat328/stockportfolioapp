@@ -1,3 +1,4 @@
+'buystocksform.js'
 //-----------------------------------
 //IMPORTS
 //-----------------------------------
@@ -15,6 +16,7 @@ import{
 import { connect } from 'react-redux';
 import { buyStocks } from '../actions/stockActions';
 import { getUniqueStocks } from '../actions/uniqueActions';
+import { loadUser } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions.js'
 import PropTypes from 'prop-types';
 require('dotenv').config()
@@ -44,7 +46,7 @@ class BuyForm extends Component {
 
     static propTypes = {
         error: PropTypes.object.isRequired,
-        clearErrors: PropTypes.func.isRequired
+        clearErrors: PropTypes.func.isRequired,
     }
 
     componentDidUpdate(prevProps){
@@ -52,7 +54,7 @@ class BuyForm extends Component {
         if(error !== prevProps.error){
             // CHECK IF ERROR IS A BUY STOCK FAIL, IF SO UPDATE MSG STATE TO CORRESPONDING ERROR
             if(error.id === 'BUY_STOCK_FAIL'){
-                this.setState({ msg: error.msg.msg });
+                this.setState({ msg: error.msg.msg  });
             } else {
                 this.setState({ msg: null })
             }
@@ -66,6 +68,7 @@ class BuyForm extends Component {
     }
 
     onSubmit = (e) => {
+        const { error } = this.props;
 
         e.preventDefault();
 
@@ -106,8 +109,6 @@ class BuyForm extends Component {
                                         currvalpershare: this.state.currvalpershare
                                     }
 
-                                    console.log(newStock);
-
                                     // BUY THE STOCK
                                     this.props.buyStocks(newStock);
 
@@ -120,15 +121,20 @@ class BuyForm extends Component {
 
                                     // GET UNIQUE STOCK WITH THE NEW STOCK ADDED
                                     this.props.getUniqueStocks()
+
+                                    this.props.loadUser()
+
                                 })
                         }else {
                             return;
                         }
 
+
                 })
                 .catch(err => console.log(err))
                 })
 
+                console.log(error);
 
         }
 
@@ -198,4 +204,4 @@ const mapStateToProps = (state) => ({
 })
 
 
-export default connect(mapStateToProps, { buyStocks, getUniqueStocks, clearErrors })(BuyForm);
+export default connect(mapStateToProps, { buyStocks, getUniqueStocks, clearErrors, loadUser })(BuyForm);

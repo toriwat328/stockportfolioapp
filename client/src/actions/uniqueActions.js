@@ -58,8 +58,6 @@ export const getUniqueStocks = () => (dispatch, getState) => {
                 }
             }
 
-        console.log(uniqueSymbols);
-
         return final
 
     })

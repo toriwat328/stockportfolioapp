@@ -55,11 +55,13 @@ class LoginModal extends Component {
         // IF AUTHENTICATED, CLOSE MODAL
         if(this.state.modal){
             if(isAuthenticated){
+                console.log(this.props);
                 this.toggle();
 
 
             }
         }
+
     }
 
     toggle = () => {
@@ -93,13 +95,13 @@ class LoginModal extends Component {
 //-----------------------------------
 // RENDER
 //-----------------------------------
-
+// ATTEMPT TO GET USER TO BE REDIRECTED AFTER BEING AUTHENTICATED WHEN LOGGING IN  -> NOT WORKING
     render(){
-        // ATTEMPT TO GET USER TO BE REDIRECTED AFTER BEING AUTHENTICATED WHEN LOGGING IN  -> NOT WORKING
-        const { isAuthenticated } = this.props;
-        if (isAuthenticated) {
-            return <Redirect to='/portfolio' />;
+        if(this.props.isAuthenticated){
+            return <Redirect to="/portfolio" />
         }
+
+
 
         return (
 
