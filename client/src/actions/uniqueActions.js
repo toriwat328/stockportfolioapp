@@ -43,9 +43,9 @@ export const getUniqueStocks = () => (dispatch, getState) => {
                         }).then(json => {
                                 //CREATE PROPERTIES WITHIN SYMBOL PROPERTY AND SET VALUE TO API DATA VALUE FOR LATEST PRICE AND OPENING PRICE
                                 uniqueSymbols[symbol].latestPrice = json.latestPrice;
-                                uniqueSymbols[symbol].open = json.open;
+                                uniqueSymbols[symbol].previousClose = json.previousClose;
                                 let latest = uniqueSymbols[symbol].latestPrice;
-                                let open = uniqueSymbols[symbol].open;
+                                let open = uniqueSymbols[symbol].previousClose;
 
                                 // TO SEE IF PRICES DROPPED OR ROSE CREATE DIFF VALUE AND SET IT EQUAL TO THE DIFFERENCE BETWEEN LATEST PRICE AND OPENING PRICE
                                 uniqueSymbols[symbol].diff = latest - open
