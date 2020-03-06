@@ -92,7 +92,10 @@ class RegisterModal extends Component {
 //-----------------------------------
 // RENDER
 //-----------------------------------
+
     render(){
+        const { isAuthenticated } = this.props;
+        console.log(isAuthenticated);
         // ATTEMPT TO GET USER TO BE REDIRECTED AFTER BEING AUTHENTICATED WHEN LOGGING IN  -> NOT WORKING
         const redirect = this.state.redirect;
         if (redirect) {

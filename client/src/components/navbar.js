@@ -51,6 +51,7 @@ class AppNavbar extends Component {
 //MADE PORTFOLIO AND TRANSATIONS PRIVATE ROUTES
     render(){
         const { isAuthenticated, user } = this.props.auth;
+        console.log(isAuthenticated);
 
         const authLinks = (
             <Fragment>
@@ -68,6 +69,7 @@ class AppNavbar extends Component {
                 <NavItem className="navbar-text mr-3">
                     <Logout />
                 </NavItem>
+                    <LoginModal />
             </Fragment>
         );
 

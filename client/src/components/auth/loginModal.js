@@ -43,6 +43,8 @@ class LoginModal extends Component {
 
     componentDidUpdate(prevProps){
         const { error, isAuthenticated } = this.props;
+        console.log(isAuthenticated);
+        console.log(error);
         if(error !== prevProps.error){
             // CHECK FOR REGISTER ERROR -> IF LOGIN FAIL THEN UPDATE MSG STATE TO CORRESPONDING ERROR
             if(error.id === 'LOGIN_FAIL'){
@@ -55,6 +57,7 @@ class LoginModal extends Component {
         // IF AUTHENTICATED, CLOSE MODAL
         if(this.state.modal){
             if(isAuthenticated){
+                console.log('salad');
                 console.log(this.props);
                 this.toggle();
 
@@ -97,6 +100,8 @@ class LoginModal extends Component {
 //-----------------------------------
 // ATTEMPT TO GET USER TO BE REDIRECTED AFTER BEING AUTHENTICATED WHEN LOGGING IN  -> NOT WORKING
     render(){
+        const { isAuthenticated } = this.props;
+        console.log(isAuthenticated);
         if(this.props.isAuthenticated){
             return <Redirect to="/portfolio" />
         }
@@ -121,7 +126,7 @@ class LoginModal extends Component {
 
                                 <Label for="email">Email</Label>
                                 <Input
-                                    type="text"
+                                    type="email"
                                     name="email"
                                     id="email"
                                     placeholder="Email"
